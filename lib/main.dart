@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,10 +14,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late FlutterBlue flutterBlue;
+
   @override
   void initState() {
     super.initState();
-    FlutterBlue flutterBlue = FlutterBlue.instance;
+    _requestPermission();
+    flutterBlue = FlutterBlue.instance;
+  }
+
+  void _requestPermission() async {
+    List<Permission> permissions = [
+      Permission.bluetoothScan,
+      Permission.bluetoothConnect,
+      Permission.bluetooth
+    ];
+    Map<Permission, PermissionStatus> statuses = await permissions.request();
+    // If all statuses are granted, then the app can perform the task.
+    // If any status is denied, then the app cannot perform the task.
+    for (int i = 0; i < statuses.length; i++) {
+      print(statuses[permissions[i]]);
+      if (statuses[permissions[i]] != PermissionStatus.granted) {
+        print('Permission denied');
+        return;
+      }
+    }
     flutterBlue.startScan(timeout: const Duration(seconds: 10));
   }
 
