@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wheresmy/pages/landing/index.dart';
 import 'package:wheresmy/pages/login/index.dart';
 import 'package:wheresmy/pages/splash/index.dart';
 import 'package:wheresmy/services/navigation_service.dart';
@@ -23,6 +24,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         "splash": (context) => const SplashScreen(),
         "login": (context) => const LoginPage(),
+        "landing": (context) => const LandingPage(),
       },
       initialRoute: "splash",
       navigatorKey: NavigationService.instance.navigatorKey,
