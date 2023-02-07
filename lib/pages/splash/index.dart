@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:wheresmy/services/navigation_service.dart';
 
 class SplashScreen extends StatefulWidget {

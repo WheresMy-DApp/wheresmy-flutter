@@ -21,6 +21,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Where's My",
+      theme: ThemeData(
+        backgroundColor: const Color(0x00078dce),
+        fontFamily: "Avenir NextLT",
+      ),
       routes: {
         "splash": (context) => const SplashScreen(),
         "login": (context) => const LoginPage(),
