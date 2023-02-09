@@ -1,7 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
-import 'package:wheresmy/pages/landing/index.dart';
 import 'package:wheresmy/widgets/custom.dart';
 
 class SignInPage extends StatefulWidget {
