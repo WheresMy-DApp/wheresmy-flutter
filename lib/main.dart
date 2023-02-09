@@ -58,6 +58,38 @@ class _MyAppState extends State<MyApp> {
             fontSize: 14,
             fontWeight: FontWeight.w900,
           ),
+          bodyText2: TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          fillColor: Color(
+            0xFF191919,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w900,
+          ),
+          hintStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w900,
+          ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 1,
+            ),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 1,
+            ),
+          ),
         ),
       ),
       routes: {
