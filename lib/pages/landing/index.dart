@@ -70,7 +70,9 @@ class _LandingPageState extends State<LandingPage> {
                       child: customButton(
                         "Register",
                         isFilled: false,
-                        onTap: () {},
+                        onTap: () {
+                          NavigationService.instance.navigateTo("register");
+                        },
                       ),
                     ),
                     SizedBox(
