@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wheresmy/services/navigation_service.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -76,7 +77,9 @@ class _LandingPageState extends State<LandingPage> {
                       height: 56,
                       child: _customButton(
                         "Sign In",
-                        onTap: () {},
+                        onTap: () {
+                          NavigationService.instance.navigateTo("sign_in");
+                        },
                       ),
                     ),
                   ],
@@ -91,31 +94,28 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _customButton(String text,
       {required Function() onTap, bool isFilled = true}) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          decoration: BoxDecoration(
-            border:
-                isFilled ? null : Border.all(color: const Color(0xFFF3F3F3)),
-            borderRadius: BorderRadius.circular(10),
-            gradient: isFilled
-                ? const LinearGradient(
-                    colors: <Color>[
-                      Color(0xFF9C77F5),
-                      Color(0xFF7751F1),
-                    ],
-                  )
-                : null,
-          ),
-          child: Center(
-            child: Text(
-              text,
-              style: const TextStyle(
-                color: Color(0xFFF3F3F3),
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
-              ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          border: isFilled ? null : Border.all(color: const Color(0xFFF3F3F3)),
+          borderRadius: BorderRadius.circular(10),
+          gradient: isFilled
+              ? const LinearGradient(
+                  colors: <Color>[
+                    Color(0xFF9C77F5),
+                    Color(0xFF7751F1),
+                  ],
+                )
+              : null,
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Color(0xFFF3F3F3),
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
             ),
           ),
         ),
