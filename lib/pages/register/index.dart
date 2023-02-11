@@ -13,8 +13,11 @@ class _RegisterPageState extends State<RegisterPage> {
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
 
+  late int _currentStep;
+
   @override
   void initState() {
+    _currentStep = 0;
     emailController = TextEditingController();
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
@@ -54,18 +57,10 @@ class _RegisterPageState extends State<RegisterPage> {
               style: Theme.of(context).textTheme.headline5,
             ),
             _registrationProgressionTab(),
-            customTextFormField(emailController, "Email address"),
-            customTextFormField(passwordController, "Password",
-                suffixIcon: Icons.visibility_off, isObscure: true),
-            customTextFormField(confirmPasswordController, "Confirm password",
-                suffixIcon: Icons.visibility_off, isObscure: true),
             SizedBox(
-              width: 343,
-              height: 56,
-              child: customButton(
-                "Next(1/3)",
-                onTap: () {},
-              ),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: _step1(),
             ),
             Text(
               "Already have an account? Sign In",
@@ -76,6 +71,8 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+
+  // Progression tab
 
   Widget _registrationProgressionTab() {
     return Row(
@@ -116,6 +113,28 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ],
       ),
+    );
+  }
+
+  // Central Content
+  Widget _step1() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        customTextFormField(emailController, "Email address"),
+        customTextFormField(passwordController, "Password",
+            suffixIcon: Icons.visibility_off, isObscure: true),
+        customTextFormField(confirmPasswordController, "Confirm password",
+            suffixIcon: Icons.visibility_off, isObscure: true),
+        SizedBox(
+          width: 343,
+          height: 56,
+          child: customButton(
+            "Next(1/3)",
+            onTap: () {},
+          ),
+        ),
+      ],
     );
   }
 }
