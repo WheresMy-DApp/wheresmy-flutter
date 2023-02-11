@@ -36,7 +36,7 @@ Widget customButton(String text,
 }
 
 Widget customTextFormField(TextEditingController controller, String label,
-    {IconData? suffixIcon, bool isObscure = false}) {
+    {IconData? suffixIcon, bool isObscure = false, Color? borderColor}) {
   return TextFormField(
     controller: controller,
     obscureText: isObscure,
@@ -54,28 +54,52 @@ Widget customTextFormField(TextEditingController controller, String label,
           0xFF9C9C9C,
         ),
       ),
-      border: const OutlineInputBorder(
-        // borderSide: BorderSide.none,
-        borderRadius: BorderRadius.all(
+      border: OutlineInputBorder(
+        borderSide: borderColor == null
+            ? BorderSide.none
+            : const BorderSide(
+                color: Color(
+                  0xFF9C9C9C,
+                ),
+              ),
+        borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
       ),
       // border: InputBorder.none,
-      focusedBorder: const OutlineInputBorder(
-        // borderSide: BorderSide.none,
-        borderRadius: BorderRadius.all(
+      focusedBorder: OutlineInputBorder(
+        borderSide: borderColor == null
+            ? BorderSide.none
+            : const BorderSide(
+                color: Color(
+                  0xFF9C9C9C,
+                ),
+              ),
+        borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
       ),
-      enabledBorder: const OutlineInputBorder(
-        // borderSide: BorderSide.none,
-        borderRadius: BorderRadius.all(
+      enabledBorder: OutlineInputBorder(
+        borderSide: borderColor == null
+            ? BorderSide.none
+            : const BorderSide(
+                color: Color(
+                  0xFF9C9C9C,
+                ),
+              ),
+        borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
       ),
-      errorBorder: const OutlineInputBorder(
-        // borderSide: BorderSide.none,
-        borderRadius: BorderRadius.all(
+      errorBorder: OutlineInputBorder(
+        borderSide: borderColor == null
+            ? BorderSide.none
+            : const BorderSide(
+                color: Color(
+                  0xFF9C9C9C,
+                ),
+              ),
+        borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
       ),

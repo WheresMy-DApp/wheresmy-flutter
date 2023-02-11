@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wheresmy/pages/add_device/index.dart';
 import 'package:wheresmy/pages/landing/index.dart';
 import 'package:wheresmy/pages/register/index.dart';
 import 'package:wheresmy/pages/sign_in/index.dart';
@@ -97,6 +98,7 @@ class _MyAppState extends State<MyApp> {
         "landing": (context) => const LandingPage(),
         "sign_in": (context) => const SignInPage(),
         "register": (context) => const RegisterPage(),
+        "add_device": (context) => const AddDevice(),
       },
       initialRoute: "splash",
       navigatorKey: NavigationService.instance.navigatorKey,

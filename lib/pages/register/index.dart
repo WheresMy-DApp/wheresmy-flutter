@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -198,9 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: customButton(
             "Next (3/3)",
             onTap: () {
-              setState(() {
-                _currentStep = 2;
-              });
+              NavigationService.instance.navigateTo("add_device");
             },
           ),
         ),
