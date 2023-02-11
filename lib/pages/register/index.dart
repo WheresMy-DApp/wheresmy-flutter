@@ -60,7 +60,7 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.4,
-              child: _step1(),
+              child: _renderBox(),
             ),
             Text(
               "Already have an account? Sign In",
@@ -117,6 +117,20 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   // Central Content
+
+  Widget _renderBox() {
+    switch (_currentStep) {
+      case 0:
+        return _step1();
+      case 1:
+        return _step2();
+      case 2:
+        return _step3();
+      default:
+        return Container();
+    }
+  }
+
   Widget _step1() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -131,7 +145,63 @@ class _RegisterPageState extends State<RegisterPage> {
           height: 56,
           child: customButton(
             "Next(1/3)",
-            onTap: () {},
+            onTap: () {
+              setState(() {
+                _currentStep = 1;
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _step2() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Image.asset(
+          "assets/logos/logos_metamask-icon.png",
+          width: 86.87,
+          height: 80,
+        ),
+        SizedBox(
+          width: 275,
+          height: 54,
+          child: customButton(
+            "Connect To Metamask",
+            onTap: () {
+              setState(() {
+                _currentStep = 2;
+              });
+            },
+            isFilled: false,
+            textColor: const Color(0xFFFBDD66),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _step3() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        customTextFormField(emailController, "Email address"),
+        customTextFormField(passwordController, "Password",
+            suffixIcon: Icons.visibility_off, isObscure: true),
+        SizedBox(
+          width: 275,
+          height: 54,
+          child: customButton(
+            "Next (3/3)",
+            onTap: () {
+              setState(() {
+                _currentStep = 2;
+              });
+            },
           ),
         ),
       ],

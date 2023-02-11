@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 Widget customButton(String text,
-    {required Function() onTap, bool isFilled = true}) {
+    {required Function() onTap,
+    bool isFilled = true,
+    Color textColor = const Color(0xFFF3F3F3)}) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
@@ -22,8 +24,8 @@ Widget customButton(String text,
       child: Center(
         child: Text(
           text,
-          style: const TextStyle(
-            color: Color(0xFFF3F3F3),
+          style: TextStyle(
+            color: textColor,
             fontSize: 16,
             fontWeight: FontWeight.w800,
           ),
