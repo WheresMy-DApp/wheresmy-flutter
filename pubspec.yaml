@@ -71,7 +71,9 @@ flutter:
     - assets/logos/logos_metamask-icon.png
     - assets/logos/working.png
     - assets/logos/iphone.png
-  #   - images/a_dot_ham.jpeg
+    - assets/logos/all.svg
+    - assets/logos/mobile.svg
+    - assets/logos/pc.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
