@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
 
@@ -172,10 +174,34 @@ class _RegisterPageState extends State<RegisterPage> {
           height: 54,
           child: customButton(
             "Connect To Metamask",
-            onTap: () {
-              setState(() {
-                _currentStep = 2;
-              });
+            onTap: () async {
+              var connector = WalletConnect(
+                bridge: "https://bridge.walletconnect.org",
+                clientMeta: const PeerMeta(
+                  name: "Where's My",
+                  description: "An app for keeping track of your devices",
+                  url: "https://wheresmy.app",
+                ),
+              );
+              if (!connector.connected) {
+                try {
+                  var session = await connector.createSession(
+                    onDisplayUri: (uri) async {
+                      await launchUrlString(
+                        uri,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                  );
+                  print(session.accounts[0]);
+                  print(session.chainId);
+                } catch (e) {
+                  print(e);
+                }
+              }
+              // setState(() {
+              //   _currentStep = 2;
+              // });
             },
             isFilled: false,
             textColor: const Color(0xFFFBDD66),
