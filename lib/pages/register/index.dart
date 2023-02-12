@@ -20,7 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void initState() {
-    _currentStep = 0;
+    _currentStep = 1;
     emailController = TextEditingController();
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
@@ -81,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _progressionTab(Icons.person_rounded, "Basic Details"),
+        // _progressionTab(Icons.person_rounded, "Basic Details"),
         _progressionTab(Icons.wallet, "Link Wallet"),
         _progressionTab(Icons.login, "Login"),
       ],
