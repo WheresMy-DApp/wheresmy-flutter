@@ -196,6 +196,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   print(session.toString());
                   print(session.accounts[0]);
                   print(session.chainId);
+                  print("Signing message");
+                  var signature = await connector
+                      .sendCustomRequest(method: "personal_sign", params: [
+                    "signmessage",
+                    session.accounts[0],
+                  ]);
+                  print("Signature: $signature");
                 } catch (e) {
                   print(e);
                 }
