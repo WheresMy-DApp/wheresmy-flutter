@@ -180,7 +180,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 clientMeta: const PeerMeta(
                   name: "Where's My",
                   description: "An app for keeping track of your devices",
-                  url: "https://wheresmy.app",
+                  url: "https://wheresmy.network",
                 ),
               );
               if (!connector.connected) {
@@ -193,6 +193,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       );
                     },
                   );
+                  print(session.toString());
                   print(session.accounts[0]);
                   print(session.chainId);
                 } catch (e) {
