@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:wheresmy/providers/auth_provider.dart';
 import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
 
@@ -165,7 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
-          "assets/logos/logos_metamask-icon.png",
+          "assets/logos/metamask_large.png",
           width: 86.87,
           height: 80,
         ),
@@ -175,41 +176,10 @@ class _RegisterPageState extends State<RegisterPage> {
           child: customButton(
             "Connect To Metamask",
             onTap: () async {
-              var connector = WalletConnect(
-                bridge: "https://bridge.walletconnect.org",
-                clientMeta: const PeerMeta(
-                  name: "Where's My",
-                  description: "An app for keeping track of your devices",
-                  url: "https://wheresmy.network",
-                ),
-              );
-              if (!connector.connected) {
-                try {
-                  var session = await connector.createSession(
-                    onDisplayUri: (uri) async {
-                      await launchUrlString(
-                        uri,
-                        mode: LaunchMode.externalApplication,
-                      );
-                    },
-                  );
-                  print(session.toString());
-                  print(session.accounts[0]);
-                  print(session.chainId);
-                  print("Signing message");
-                  var signature = await connector
-                      .sendCustomRequest(method: "personal_sign", params: [
-                    "signmessage",
-                    session.accounts[0],
-                  ]);
-                  print("Signature: $signature");
-                } catch (e) {
-                  print(e);
-                }
-              }
-              // setState(() {
-              //   _currentStep = 2;
-              // });
+              await AuthProvider.instance.createWalletSession();
+              setState(() {
+                _currentStep = 2;
+              });
             },
             isFilled: false,
             textColor: const Color(0xFFFBDD66),
