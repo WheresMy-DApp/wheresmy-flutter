@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wheresmy/widgets/custom.dart';
+import 'package:wheresmy/widgets/device_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -49,6 +50,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               title: "PCs",
             ),
           ],
+        ),
+      ),
+      body: Center(
+        child: SizedBox(
+          width: double.infinity,
+          height: 310,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              DeviceTile(
+                title: "Rahul's iPhone",
+                lastSeen: DateTime.now(),
+                tileImage: Image.asset("assets/logos/iphone.png"),
+                width: 221,
+                height: 221,
+              ),
+            ],
+          ),
         ),
       ),
     );
