@@ -19,6 +19,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   late int _currentStep;
 
+  String? message;
+
   @override
   void initState() {
     _currentStep = 1;
@@ -177,6 +179,8 @@ class _RegisterPageState extends State<RegisterPage> {
             "Connect To Metamask",
             onTap: () async {
               await AuthProvider.instance.createWalletSession();
+              message = await AuthProvider.instance
+                  .register(AuthProvider.instance.walletId!);
               setState(() {
                 _currentStep = 2;
               });
@@ -202,8 +206,12 @@ class _RegisterPageState extends State<RegisterPage> {
           height: 54,
           child: customButton(
             "Next (3/3)",
-            onTap: () {
-              NavigationService.instance.navigateTo("add_device");
+            onTap: () async {
+              if (message != null) {
+                var signature =
+                    await AuthProvider.instance.signMessage(message!);
+                print(signature);
+              }
             },
           ),
         ),
