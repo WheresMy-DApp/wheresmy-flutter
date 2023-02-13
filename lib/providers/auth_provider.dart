@@ -41,12 +41,15 @@ class AuthProvider extends ChangeNotifier {
 
   Future<String?> register(String walletId) async {
     try {
-      http.Response response = await http
-          .post(Uri.parse("${AppConstants.host}/user/register"), headers: {
-        "Content-Type": "application/json",
-      }, body: {
-        "walletAddress": walletId,
-      });
+      http.Response response =
+          await http.post(Uri.parse("${AppConstants.host}/user/register"),
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: jsonEncode({
+                "walletAddress": walletId,
+              }));
+      print(response.body);
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         return data["message"];
