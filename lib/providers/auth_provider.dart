@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:wheresmy/models/user.dart';
 import 'package:wheresmy/utils/constants.dart';
 import 'package:wheresmy/utils/logger.dart';
+import 'package:wheresmy/widgets/snackbar.dart';
 
 enum AuthStatus { authenticated, unauthenticated, error }
 
@@ -61,6 +62,9 @@ class AuthProvider extends ChangeNotifier {
       if (response.statusCode == 201) {
         var data = jsonDecode(response.body);
         return data["message"];
+      } else if (response.statusCode == 401) {
+        SnackBarService.instance
+            .showFailureSnackBar("You are already registered");
       }
     } catch (e) {
       log.severe(e);
@@ -81,18 +85,16 @@ class AuthProvider extends ChangeNotifier {
           "walletAddress": walletId,
         }),
       );
-      print(response.statusCode);
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         return data["message"];
-      } else if (response.statusCode == 404) {
-        return null;
-      } else {
-        return null;
+      } else if (response.statusCode == 401) {
+        SnackBarService.instance.showFailureSnackBar("User not found");
       }
     } catch (e) {
       log.severe(e);
     }
+    return null;
   }
 
   Future<String?> signMessage(String message) async {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wheresmy/providers/auth_provider.dart';
 import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
+import 'package:wheresmy/widgets/snackbar.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -30,6 +31,8 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    SnackBarService.instance.context = context;
+
     return Scaffold(
       backgroundColor: const Color(0x00078dce),
       body: SafeArea(

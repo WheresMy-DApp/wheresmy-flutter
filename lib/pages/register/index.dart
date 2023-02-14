@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wheresmy/providers/auth_provider.dart';
 import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
+import 'package:wheresmy/widgets/snackbar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -57,6 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Builder(builder: (BuildContext innerContext) {
       _authProvider = Provider.of<AuthProvider>(innerContext);
       mainContext = innerContext;
+      SnackBarService.instance.context = innerContext;
 
       return Scaffold(
         backgroundColor: Theme.of(innerContext).backgroundColor,
