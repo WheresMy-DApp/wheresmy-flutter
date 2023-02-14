@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:wheresmy/utils/constants.dart';
+import 'package:wheresmy/utils/logger.dart';
 
 class AuthProvider extends ChangeNotifier {
   String? walletId;
@@ -45,7 +47,7 @@ class AuthProvider extends ChangeNotifier {
           await http.post(Uri.parse("${AppConstants.host}/user/register"),
               headers: {
                 "Content-Type": "application/json",
-                "device": "ios",
+                "device": Platform.isIOS ? "ios" : "android",
               },
               body: jsonEncode({
                 "walletAddress": walletId,
@@ -55,7 +57,7 @@ class AuthProvider extends ChangeNotifier {
         return data["message"];
       }
     } catch (e) {
-      print(e);
+      log.severe(e);
     }
     return null;
   }
@@ -89,10 +91,9 @@ class AuthProvider extends ChangeNotifier {
       );
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        print(data);
       }
     } catch (e) {
-      print(e);
+      log.severe(e);
     }
   }
 }

@@ -43,6 +43,7 @@ dependencies:
   url_launcher: ^6.1.9
   walletconnect_dart: ^0.0.11
   http: ^0.13.5
+  logging: ^1.1.1
 
 dev_dependencies:
   flutter_test:

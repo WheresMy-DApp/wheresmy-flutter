@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:wheresmy/providers/auth_provider.dart';
-import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -181,7 +178,6 @@ class _RegisterPageState extends State<RegisterPage> {
               await AuthProvider.instance.createWalletSession();
               message = await AuthProvider.instance
                   .register(AuthProvider.instance.walletId!);
-              print(message);
               setState(() {
                 _currentStep = 2;
               });
