@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wheresmy/providers/auth_provider.dart';
+import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -201,7 +202,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     await AuthProvider.instance.createWalletSession();
                     message = await AuthProvider.instance
                         .register(AuthProvider.instance.walletId!);
-                    print(message);
                     if (message != null) {
                       var signature =
                           await AuthProvider.instance.signMessage(message!);
@@ -240,7 +240,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 56,
                         child: customButton(
                           "Continue",
-                          onTap: () {},
+                          onTap: () {
+                            NavigationService.instance
+                                .navigateToReplacement("home");
+                          },
                           isFilled: true,
                         ),
                       ),

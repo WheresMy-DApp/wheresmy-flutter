@@ -68,6 +68,33 @@ class AuthProvider extends ChangeNotifier {
     return null;
   }
 
+  Future<String?> initLogin() async {
+    try {
+      await createWalletSession();
+      http.Response response = await http.post(
+        Uri.parse("${AppConstants.host}/user/initLogin"),
+        headers: {
+          "Content-Type": "application/json",
+          "device": Platform.isIOS ? "ios" : "android",
+        },
+        body: jsonEncode({
+          "walletAddress": walletId,
+        }),
+      );
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        return data["message"];
+      } else if (response.statusCode == 404) {
+        return null;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      log.severe(e);
+    }
+  }
+
   Future<String?> signMessage(String message) async {
     if (!connector.connected) {
       await createWalletSession();

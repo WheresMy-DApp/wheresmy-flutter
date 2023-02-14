@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wheresmy/providers/auth_provider.dart';
+import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
 
 class SignInPage extends StatefulWidget {
@@ -50,53 +52,68 @@ class _SignInPageState extends State<SignInPage> {
               "Welcome back, we missed you!",
               style: Theme.of(context).textTheme.headline5,
             ),
-            customTextFormField(
-              emailTextController,
-              "Email Address",
-            ),
-            customTextFormField(
-              passwordTextController,
-              "Password",
-              suffixIcon: Icons.visibility,
-              isObscure: true,
-            ),
-            SizedBox(
-              height: 56,
-              child: customButton(
-                "Continue",
-                onTap: () {},
-              ),
-            ),
-            Row(
-              children: [
-                const Expanded(
-                  child: Divider(
-                    color: Color(
-                      0xFF393939,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: const Text("or"),
-                ),
-                const Expanded(
-                  child: Divider(
-                    color: Color(
-                      0xFF393939,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // customTextFormField(
+            //   emailTextController,
+            //   "Email Address",
+            // ),
+            // customTextFormField(
+            //   passwordTextController,
+            //   "Password",
+            //   suffixIcon: Icons.visibility,
+            //   isObscure: true,
+            // ),
+            // SizedBox(
+            //   height: 56,
+            //   child: customButton(
+            //     "Continue",
+            //     onTap: () {},
+            //   ),
+            // ),
+            // Row(
+            //   children: [
+            //     const Expanded(
+            //       child: Divider(
+            //         color: Color(
+            //           0xFF393939,
+            //         ),
+            //       ),
+            //     ),
+            //     Container(
+            //       margin: const EdgeInsets.only(
+            //         left: 10,
+            //         right: 10,
+            //       ),
+            //       child: const Text("or"),
+            //     ),
+            //     const Expanded(
+            //       child: Divider(
+            //         color: Color(
+            //           0xFF393939,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             SizedBox(
               height: 56,
               child: customButton(
                 "Sign in with Metamask",
-                onTap: () {},
+                onTap: () async {
+                  await AuthProvider.instance.createWalletSession();
+                  var message = await AuthProvider.instance.initLogin();
+                  if (message != null) {
+                    var signature =
+                        await AuthProvider.instance.signMessage(message);
+                    if (signature != null) {
+                      await AuthProvider.instance.login(signature);
+                      if (AuthProvider.instance.authStatus ==
+                          AuthStatus.authenticated) {
+                        NavigationService.instance
+                            .navigateToReplacement("home");
+                      }
+                    }
+                  }
+                },
                 isFilled: false,
               ),
             ),
