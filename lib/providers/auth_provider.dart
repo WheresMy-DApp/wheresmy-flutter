@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:http/http.dart' as http;
+import 'package:wheresmy/models/user.dart';
 import 'package:wheresmy/utils/constants.dart';
 import 'package:wheresmy/utils/logger.dart';
+
+enum AuthStatus { authenticated, unauthenticated, error }
 
 class AuthProvider extends ChangeNotifier {
   String? walletId;
@@ -20,6 +23,9 @@ class AuthProvider extends ChangeNotifier {
   );
   SessionStatus? sessionStatus;
   String? launchUri;
+  String? token;
+  User? currentUser;
+  AuthStatus authStatus = AuthStatus.unauthenticated;
 
   static AuthProvider instance = AuthProvider();
 
@@ -91,6 +97,10 @@ class AuthProvider extends ChangeNotifier {
       );
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
+        token = data["token"];
+        currentUser = User.fromJson(data["user"]);
+        authStatus = AuthStatus.authenticated;
+        notifyListeners();
       }
     } catch (e) {
       log.severe(e);
