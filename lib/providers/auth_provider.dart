@@ -45,12 +45,12 @@ class AuthProvider extends ChangeNotifier {
           await http.post(Uri.parse("${AppConstants.host}/user/register"),
               headers: {
                 "Content-Type": "application/json",
+                "device": "ios",
               },
               body: jsonEncode({
                 "walletAddress": walletId,
               }));
-      print(response.body);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         var data = jsonDecode(response.body);
         return data["message"];
       }
@@ -71,6 +71,28 @@ class AuthProvider extends ChangeNotifier {
       return signature;
     } else {
       return null;
+    }
+  }
+
+  Future<void> login(String signature) async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse("${AppConstants.host}/user/login"),
+        headers: {
+          "Content-Type": "application/json",
+          "device": "ios",
+        },
+        body: jsonEncode({
+          "walletAddress": walletId,
+          "signature": signature,
+        }),
+      );
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        print(data);
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }

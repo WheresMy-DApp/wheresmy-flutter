@@ -181,6 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
               await AuthProvider.instance.createWalletSession();
               message = await AuthProvider.instance
                   .register(AuthProvider.instance.walletId!);
+              print(message);
               setState(() {
                 _currentStep = 2;
               });
@@ -210,7 +211,9 @@ class _RegisterPageState extends State<RegisterPage> {
               if (message != null) {
                 var signature =
                     await AuthProvider.instance.signMessage(message!);
-                print(signature);
+                if (signature != null) {
+                  await AuthProvider.instance.login(signature);
+                }
               }
             },
           ),
