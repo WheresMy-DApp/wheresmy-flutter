@@ -44,6 +44,7 @@ dependencies:
   walletconnect_dart: ^0.0.11
   http: ^0.13.5
   logging: ^1.1.1
+  shared_preferences: ^2.0.17
 
 dev_dependencies:
   flutter_test:
