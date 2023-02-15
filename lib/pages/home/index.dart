@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AuthProvider _authProvider;
   late BuildContext mainContext;
   late BLEProvider _bleProvider;
@@ -35,50 +35,65 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: customAppBar(
-        context: context,
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
-            customTab(
-              leading: SvgPicture.asset(
-                "assets/logos/all.svg",
-              ),
-              title: "All Devices",
-            ),
-            customTab(
-              leading: SvgPicture.asset(
-                "assets/logos/mobile.svg",
-              ),
-              title: "Mobiles",
-            ),
-            customTab(
-              leading: SvgPicture.asset(
-                "assets/logos/pc.svg",
-              ),
-              title: "PCs",
-            ),
-          ],
-        ),
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: AuthProvider.instance),
+          ChangeNotifierProvider.value(value: BLEProvider.instance),
+        ],
+        child: _mainUI(),
       ),
-      body: Center(
-        child: SizedBox(
-          width: double.infinity,
-          height: 310,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              DeviceTile(
-                title: "Rahul's iPhone",
-                lastSeen: DateTime.now(),
-                tileImage: Image.asset("assets/logos/iphone.png"),
-                width: 221,
-                height: 221,
+    );
+  }
+
+  Widget _mainUI() {
+    return Builder(builder: (BuildContext innerContext) {
+      return Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        appBar: customAppBar(
+          context: context,
+          bottom: TabBar(
+            controller: _tabController,
+            tabs: [
+              customTab(
+                leading: SvgPicture.asset(
+                  "assets/logos/all.svg",
+                ),
+                title: "All Devices",
+              ),
+              customTab(
+                leading: SvgPicture.asset(
+                  "assets/logos/mobile.svg",
+                ),
+                title: "Mobiles",
+              ),
+              customTab(
+                leading: SvgPicture.asset(
+                  "assets/logos/pc.svg",
+                ),
+                title: "PCs",
               ),
             ],
           ),
         ),
-      ),
-    );
+        body: Center(
+          child: SizedBox(
+            width: double.infinity,
+            height: 310,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                DeviceTile(
+                  title: "Rahul's iPhone",
+                  lastSeen: DateTime.now(),
+                  tileImage: Image.asset("assets/logos/iphone.png"),
+                  width: 221,
+                  height: 221,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
   }
 }
