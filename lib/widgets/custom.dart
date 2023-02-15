@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 Widget customButton(String text,
     {required Function() onTap,
@@ -112,6 +113,61 @@ Widget customTextFormField(TextEditingController controller, String label,
       disabledBorder: InputBorder.none,
       fillColor: const Color(
         0xFF191919,
+      ),
+    ),
+  );
+}
+
+AppBar customAppBar(
+    {required BuildContext context, PreferredSizeWidget? bottom}) {
+  return AppBar(
+    backgroundColor: Theme.of(context).backgroundColor,
+    leading: Image.asset(
+      "assets/logos/small.png",
+    ),
+    title: Text(
+      "My Devices",
+      style: Theme.of(context).textTheme.headline2,
+    ),
+    centerTitle: false,
+    bottom: bottom,
+  );
+}
+
+// Custom Tab Bar
+TabBar customAppBarTab(
+    {required TabController tabController, required List<Widget> tabs}) {
+  return TabBar(
+    controller: tabController,
+    tabs: tabs,
+    indicatorColor: Colors.transparent,
+  );
+}
+
+Tab customTab({
+  required SvgPicture leading,
+  required String title,
+}) {
+  return Tab(
+    child: SizedBox(
+      child: Row(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: leading,
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w900,
+            ),
+          )
+        ],
       ),
     ),
   );

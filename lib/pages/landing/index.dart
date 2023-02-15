@@ -86,16 +86,16 @@ class _LandingPageState extends State<LandingPage> {
                       ),
                     ),
                     // For Testing only
-                    // SizedBox(
-                    //   width: 99,
-                    //   height: 56,
-                    //   child: customButton(
-                    //     "Go to Test Page",
-                    //     onTap: () {
-                    //       NavigationService.instance.navigateTo("add_device");
-                    //     },
-                    //   ),
-                    // ),
+                    SizedBox(
+                      width: 25,
+                      height: 56,
+                      child: customButton(
+                        "Go to Test Page",
+                        onTap: () {
+                          NavigationService.instance.navigateTo("home");
+                        },
+                      ),
+                    ),
                   ],
                 ),
               )
