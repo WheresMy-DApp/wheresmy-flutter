@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:wheresmy/pages/add_device/index.dart';
 import 'package:wheresmy/pages/home/index.dart';
@@ -20,7 +22,7 @@ void callbackDispatcher() async {
     } catch (e) {
       throw Exception(e);
     }
-    return true;
+    return Future.value(true);
   });
 }
 
@@ -30,15 +32,18 @@ void main() {
     callbackDispatcher,
     isInDebugMode: true,
   );
-  Workmanager().registerPeriodicTask(
-    "1",
-    "fh",
-    frequency: const Duration(minutes: 15),
-    initialDelay: const Duration(seconds: 10),
-    constraints: Constraints(
-      networkType: NetworkType.connected,
-    ),
-  );
+  if (Platform.isAndroid) {
+    Workmanager().registerPeriodicTask(
+      "1",
+      "fh",
+      inputData: {},
+      frequency: const Duration(minutes: 15),
+      initialDelay: const Duration(seconds: 10),
+      constraints: Constraints(
+        networkType: NetworkType.connected,
+      ),
+    );
+  }
   runApp(const MyApp());
 }
 
