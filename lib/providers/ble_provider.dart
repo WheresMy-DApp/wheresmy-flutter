@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 enum ScanStatus {
   scanning,
@@ -48,10 +49,27 @@ class BLEProvider extends ChangeNotifier {
 
   BLEProvider();
 
+  Future<void> requestPermissions() async {
+    List<Permission> permissions = [
+      Permission.bluetoothScan,
+      Permission.bluetoothConnect,
+      Permission.bluetooth
+    ];
+
+    Map<Permission, PermissionStatus> statuses = await permissions.request();
+    for (int i = 0; i < statuses.length; i++) {
+      if (statuses[permissions[i]] != PermissionStatus.granted) {
+        return;
+      }
+    }
+  }
+
   void startScan() {
     scanStatus = ScanStatus.scanning;
     notifyListeners();
-    flutterBlue.startScan(timeout: Duration(seconds: 4));
+    flutterBlue.startScan(timeout: const Duration(seconds: 4)).then((value) {
+      stopScan();
+    });
     flutterBlue.scanResults.listen((results) {
       for (ScanResult r in results) {
         if (r.device.name == 'WheresMy') {
