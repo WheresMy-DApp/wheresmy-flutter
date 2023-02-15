@@ -6,9 +6,39 @@ import 'package:wheresmy/pages/register/index.dart';
 import 'package:wheresmy/pages/sign_in/index.dart';
 import 'package:wheresmy/pages/splash/index.dart';
 import 'package:wheresmy/services/navigation_service.dart';
+import 'package:workmanager/workmanager.dart';
+import 'package:http/http.dart' as http;
+
+// Methods to be called in background
+@pragma('vm:entry-point')
+void callbackDispatcher() async {
+  Workmanager().executeTask((taskName, inputData) async {
+    try {
+      http.Response _ = await http.get(
+        Uri.parse("http://chats.sandeepkumar.in:3456/fh"),
+      );
+    } catch (e) {
+      throw Exception(e);
+    }
+    return true;
+  });
+}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: true,
+  );
+  Workmanager().registerPeriodicTask(
+    "1",
+    "fh",
+    frequency: const Duration(minutes: 15),
+    initialDelay: const Duration(seconds: 10),
+    constraints: Constraints(
+      networkType: NetworkType.connected,
+    ),
+  );
   runApp(const MyApp());
 }
 
