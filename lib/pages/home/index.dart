@@ -46,30 +46,6 @@ class _HomePageState extends State<HomePage> {
 
       return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        body: Center(
-          child: _bleProvider.scanStatus == ScanStatus.scanning
-              ? const CircularProgressIndicator()
-              : ListView.builder(
-                  itemCount: _bleProvider.bleDevices.length,
-                  itemBuilder: (innerContext, int index) {
-                    print(_bleProvider.bleDevices[index].toString());
-                    return ListTile(
-                      title: Text(
-                        _bleProvider.bleDevices[index].id,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      subtitle: Text(
-                        _bleProvider.bleDevices[index].macId,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      trailing: Text(
-                        _bleProvider.bleDevices[index].rssi,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    );
-                  },
-                ),
-        ),
       );
     });
   }
