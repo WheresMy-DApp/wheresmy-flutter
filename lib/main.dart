@@ -19,10 +19,10 @@ void callbackDispatcher() async {
       http.Response _ = await http.get(
         Uri.parse("http://chats.sandeepkumar.in:3456/fh"),
       );
+      return Future.value(true);
     } catch (e) {
       throw Exception(e);
     }
-    return Future.value(true);
   });
 }
 
