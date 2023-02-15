@@ -26,6 +26,15 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>processing</string>
+		<string>fetch</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>task-identifier</string>
+  </array>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Need BLE permission</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>

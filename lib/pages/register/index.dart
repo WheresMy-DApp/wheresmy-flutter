@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wheresmy/providers/auth_provider.dart';
 import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
+import 'package:wheresmy/widgets/snackbar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -13,12 +16,17 @@ class _RegisterPageState extends State<RegisterPage> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
+  late BuildContext mainContext;
 
   late int _currentStep;
 
+  String? message;
+
+  late AuthProvider _authProvider;
+
   @override
   void initState() {
-    _currentStep = 0;
+    _currentStep = 1;
     emailController = TextEditingController();
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
@@ -37,40 +45,59 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Image(
-              image: AssetImage(
-                "assets/logos/small.png",
-              ),
-              width: 50.23,
-              alignment: Alignment.center,
-            ),
-            Text(
-              "Register",
-              style: Theme.of(context).textTheme.headline1,
-            ),
-            Text(
-              "Hey there, nice to meet you!",
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            _registrationProgressionTab(),
-            SizedBox(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.4,
-              child: _renderBox(),
-            ),
-            Text(
-              "Already have an account? Sign In",
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
-          ],
-        ),
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: AuthProvider.instance),
+        ],
+        child: _mainUI(),
       ),
     );
+  }
+
+  Widget _mainUI() {
+    return Builder(builder: (BuildContext innerContext) {
+      _authProvider = Provider.of<AuthProvider>(innerContext);
+      mainContext = innerContext;
+      SnackBarService.instance.context = innerContext;
+
+      return Scaffold(
+        backgroundColor: Theme.of(innerContext).backgroundColor,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Image(
+                image: AssetImage(
+                  "assets/logos/small.png",
+                ),
+                width: 50.23,
+                alignment: Alignment.center,
+              ),
+              Text(
+                "Register",
+                style: Theme.of(context).textTheme.headline1,
+              ),
+              Text(
+                "Hey there, nice to meet you!",
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              // _registrationProgressionTab(),
+              SizedBox(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.4,
+                // child: _renderBox(),
+                child: _step2(),
+              ),
+              Text(
+                "Already have an account? Sign In",
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            ],
+          ),
+        ),
+      );
+    });
   }
 
   // Progression tab
@@ -79,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _progressionTab(Icons.person_rounded, "Basic Details"),
+        // _progressionTab(Icons.person_rounded, "Basic Details"),
         _progressionTab(Icons.wallet, "Link Wallet"),
         _progressionTab(Icons.login, "Login"),
       ],
@@ -163,23 +190,68 @@ class _RegisterPageState extends State<RegisterPage> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
-          "assets/logos/logos_metamask-icon.png",
+          "assets/logos/metamask_large.png",
           width: 86.87,
           height: 80,
         ),
         SizedBox(
           width: 275,
           height: 54,
-          child: customButton(
-            "Connect To Metamask",
-            onTap: () {
-              setState(() {
-                _currentStep = 2;
-              });
-            },
-            isFilled: false,
-            textColor: const Color(0xFFFBDD66),
-          ),
+          child: _authProvider.authStatus == AuthStatus.unauthenticated
+              ? customButton(
+                  "Connect To Metamask",
+                  onTap: () async {
+                    await AuthProvider.instance.createWalletSession();
+                    message = await AuthProvider.instance
+                        .register(AuthProvider.instance.walletId!);
+                    if (message != null) {
+                      var signature =
+                          await AuthProvider.instance.signMessage(message!);
+                      if (signature != null) {
+                        await AuthProvider.instance.login(signature);
+                      }
+                    }
+                    setState(() {
+                      _currentStep = 2;
+                    });
+                  },
+                  isFilled: false,
+                  textColor: const Color(0xFFFBDD66),
+                )
+              : SizedBox(
+                  child: Column(
+                    children: [
+                      Text(
+                        "Connected!",
+                        style:
+                            Theme.of(mainContext).textTheme.headline4!.copyWith(
+                                  color: const Color(0xFF2ECCFF),
+                                ),
+                      ),
+                      SizedBox(
+                        child: Text(
+                          _authProvider.token!,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      SizedBox(
+                        width: 343,
+                        height: 56,
+                        child: customButton(
+                          "Continue",
+                          onTap: () {
+                            NavigationService.instance
+                                .navigateToReplacement("home");
+                          },
+                          isFilled: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
         ),
       ],
     );
@@ -198,9 +270,7 @@ class _RegisterPageState extends State<RegisterPage> {
           height: 54,
           child: customButton(
             "Next (3/3)",
-            onTap: () {
-              NavigationService.instance.navigateTo("add_device");
-            },
+            onTap: () async {},
           ),
         ),
       ],

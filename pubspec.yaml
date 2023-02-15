@@ -40,6 +40,12 @@ dependencies:
   permission_handler: ^10.2.0
   flutter_svg: ^1.1.6
   provider: ^6.0.5
+  url_launcher: ^6.1.9
+  walletconnect_dart: ^0.0.11
+  http: ^0.13.5
+  logging: ^1.1.1
+  shared_preferences: ^2.0.17
+  workmanager: ^0.5.1
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +77,7 @@ flutter:
     - assets/logos/logos_metamask-icon.png
     - assets/logos/working.png
     - assets/logos/iphone.png
+    - assets/logos/metamask_large.png
     - assets/logos/all.svg
     - assets/logos/mobile.svg
     - assets/logos/pc.svg

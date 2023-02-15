@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
+import 'package:provider/provider.dart';
+import 'package:wheresmy/providers/auth_provider.dart';
+import 'package:wheresmy/providers/ble_provider.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wheresmy/widgets/custom.dart';
 import 'package:wheresmy/widgets/device_tile.dart';
@@ -10,11 +14,16 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> {
+  late AuthProvider _authProvider;
+  late BuildContext mainContext;
+  late BLEProvider _bleProvider;
   late TabController _tabController;
-
   @override
   void initState() {
+    BLEProvider.instance.requestPermissions().then((value) {
+      BLEProvider.instance.startScan();
+    });
     _tabController = TabController(
       length: 3,
       vsync: this,
