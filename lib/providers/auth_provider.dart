@@ -131,11 +131,30 @@ class AuthProvider extends ChangeNotifier {
         currentUser = User.fromJson(data["user"]);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("token", token!);
+        prefs.setString("userdata", jsonEncode(currentUser!.toJson()));
         authStatus = AuthStatus.authenticated;
         notifyListeners();
       }
     } catch (e) {
       log.severe(e);
     }
+  }
+
+  Future<bool> checkPersistance() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString("token");
+      String? userdata = prefs.getString("userdata");
+      if (token != null && userdata != null) {
+        this.token = token;
+        currentUser = User.fromJson(jsonDecode(userdata));
+        authStatus = AuthStatus.authenticated;
+        notifyListeners();
+        return true;
+      }
+    } catch (e) {
+      log.severe(e);
+    }
+    return false;
   }
 }

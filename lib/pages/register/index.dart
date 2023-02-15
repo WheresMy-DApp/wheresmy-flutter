@@ -196,7 +196,9 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         SizedBox(
           width: 275,
-          height: 54,
+          height: _authProvider.authStatus == AuthStatus.unauthenticated
+              ? 54
+              : null,
           child: _authProvider.authStatus == AuthStatus.unauthenticated
               ? customButton(
                   "Connect To Metamask",
@@ -220,6 +222,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 )
               : SizedBox(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
                         "Connected!",
@@ -230,13 +233,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       SizedBox(
                         child: Text(
-                          _authProvider.token!,
+                          _authProvider.walletId!,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
+                      // const SizedBox(
+                      //   height: 15,
+                      // ),
                       SizedBox(
                         width: 343,
                         height: 56,
