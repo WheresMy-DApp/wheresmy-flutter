@@ -17,7 +17,7 @@ void callbackDispatcher() async {
   Workmanager().executeTask((taskName, inputData) async {
     try {
       http.Response _ = await http.get(
-        Uri.parse("http://chats.sandeepkumar.in:3456/fh"),
+        Uri.parse("https://chats.sandeepkumar.in/fh"),
       );
       return Future.value(true);
     } catch (e) {
