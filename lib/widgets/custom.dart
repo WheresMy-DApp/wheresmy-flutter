@@ -121,6 +121,7 @@ Widget customTextFormField(TextEditingController controller, String label,
 AppBar customAppBar(
     {required BuildContext context, PreferredSizeWidget? bottom}) {
   return AppBar(
+    toolbarHeight: 85,
     backgroundColor: Theme.of(context).backgroundColor,
     leading: Image.asset(
       "assets/logos/small.png",

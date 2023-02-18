@@ -59,6 +59,7 @@ class BLEProvider extends ChangeNotifier {
     Map<Permission, PermissionStatus> statuses = await permissions.request();
     for (int i = 0; i < statuses.length; i++) {
       if (statuses[permissions[i]] != PermissionStatus.granted) {
+        print(statuses[permissions[i]]);
         return;
       }
     }

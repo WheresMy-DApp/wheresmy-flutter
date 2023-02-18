@@ -31,6 +31,7 @@ class DeviceTile extends StatelessWidget {
     var color = colors[random.nextInt(colors.length)];
 
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
       width: width,
       height: height,
       decoration: BoxDecoration(
@@ -38,13 +39,13 @@ class DeviceTile extends StatelessWidget {
         color: const Color(0xFF191919),
       ),
       child: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               decoration: BoxDecoration(
@@ -52,7 +53,8 @@ class DeviceTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
               ),
               child: SizedBox(
-                width: 131,
+                width: 150,
+                height: 150,
                 child: tileImage,
               ),
             ),

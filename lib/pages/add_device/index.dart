@@ -31,30 +31,34 @@ class _AddDeviceState extends State<AddDevice> {
           });
         },
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Add Device",
-                style: Theme.of(context).textTheme.headline1,
-              ),
-              _addingUI(),
-              isLoading
-                  ? const SizedBox()
-                  : Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SizedBox(
-                        // width: 343,
-                        height: 56,
-                        child: customButton(
-                          "Add Device",
-                          onTap: () {},
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Add Device",
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
+                  _addingUI(),
+                  isLoading
+                      ? const SizedBox()
+                      : Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                              padding: EdgeInsets.only(top: 20),
+                              child: SizedBox(
+                                // width: 343,
+                                height: 56,
+                                child: customButton(
+                                  "Add Device",
+                                  onTap: () {},
+                                ),
+                              )),
                         ),
-                      ),
-                    ),
-            ],
-          ),
+                ],
+              )),
         ),
       ),
     );
@@ -63,11 +67,13 @@ class _AddDeviceState extends State<AddDevice> {
   Widget _addingUI() {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.45,
+      height: MediaQuery.of(context).size.height * 0.50,
       margin: const EdgeInsets.only(
         top: 75,
       ),
-      decoration: const BoxDecoration(color: Color(0xFF191919)),
+      decoration: const BoxDecoration(
+          color: Color(0xFF191919),
+          borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,11 +136,13 @@ class _AddDeviceState extends State<AddDevice> {
                 ),
           isLoading
               ? const SizedBox()
-              : customTextFormField(
-                  deviceNicknameTextController,
-                  "Device Nickname",
-                  borderColor: const Color(0xFF393939),
-                ),
+              : Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  child: customTextFormField(
+                    deviceNicknameTextController,
+                    "Device Nickname",
+                    borderColor: const Color(0xFF393939),
+                  )),
         ],
       ),
     );

@@ -46,6 +46,7 @@ dependencies:
   logging: ^1.1.1
   shared_preferences: ^2.0.17
   workmanager: ^0.5.1
+  web3dart: ^2.6.1
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +82,7 @@ flutter:
     - assets/logos/all.svg
     - assets/logos/mobile.svg
     - assets/logos/pc.svg
+    - lib/contracts/abis/WheresMyNFT.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
