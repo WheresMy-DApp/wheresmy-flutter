@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:wheresmy/models/user.dart';
@@ -11,20 +10,12 @@ import 'package:wheresmy/utils/constants.dart';
 import 'package:wheresmy/utils/logger.dart';
 import 'package:wheresmy/widgets/snackbar.dart';
 
+import 'package:wheresmy/providers/web3_provider.dart';
+
 enum AuthStatus { authenticated, unauthenticated, error }
 
 class AuthProvider extends ChangeNotifier {
-  String? walletId;
-  WalletConnect connector = WalletConnect(
-    bridge: "https://bridge.walletconnect.org",
-    clientMeta: const PeerMeta(
-      name: "Where's My",
-      description: "An app for keeping track of your devices",
-      url: "https://wheresmy.network",
-    ),
-  );
   SessionStatus? sessionStatus;
-  String? launchUri;
   String? token;
   User? currentUser;
   AuthStatus authStatus = AuthStatus.unauthenticated;
@@ -33,26 +24,10 @@ class AuthProvider extends ChangeNotifier {
 
   AuthProvider();
 
-  Future<void> createWalletSession() async {
-    if (!connector.connected) {
-      sessionStatus = await connector.createSession(
-        onDisplayUri: (uri) async {
-          launchUri = uri;
-          await launchUrlString(
-            uri,
-            mode: LaunchMode.externalApplication,
-          );
-        },
-      );
-      walletId = sessionStatus!.accounts[0];
-      notifyListeners();
-    }
-  }
-
   Future<String?> register(String walletId) async {
     try {
       http.Response response =
-          await http.post(Uri.parse("${AppConstants.host}/user/register"),
+          await http.post(Uri.parse("${AppConstants.host}/user/initLogin"),
               headers: {
                 "Content-Type": "application/json",
                 "device": Platform.isIOS ? "ios" : "android",
@@ -60,7 +35,7 @@ class AuthProvider extends ChangeNotifier {
               body: jsonEncode({
                 "walletAddress": walletId,
               }));
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         return data["message"];
       } else if (response.statusCode == 401) {
@@ -75,7 +50,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<String?> initLogin() async {
     try {
-      await createWalletSession();
+      Web3Provider.instance.createWalletSession();
       http.Response response = await http.post(
         Uri.parse("${AppConstants.host}/user/initLogin"),
         headers: {
@@ -83,7 +58,7 @@ class AuthProvider extends ChangeNotifier {
           "device": Platform.isIOS ? "ios" : "android",
         },
         body: jsonEncode({
-          "walletAddress": walletId,
+          "walletAddress": Web3Provider.instance.walletId,
         }),
       );
       if (response.statusCode == 200) {
@@ -99,12 +74,10 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<String?> signMessage(String message) async {
-    if (!connector.connected) {
-      await createWalletSession();
+    if (!Web3Provider.instance.connector.connected) {
+      await Web3Provider.instance.createWalletSession();
     }
-    await launchUrlString(launchUri!, mode: LaunchMode.externalApplication);
-    var signature = await connector.sendCustomRequest(
-        method: "personal_sign", params: [message, walletId]);
+    var signature = await Web3Provider.instance.signMessage(message);
     if (signature != null) {
       return signature;
     } else {
@@ -121,7 +94,7 @@ class AuthProvider extends ChangeNotifier {
           "device": "ios",
         },
         body: jsonEncode({
-          "walletAddress": walletId,
+          "walletAddress": Web3Provider.instance.walletId,
           "signature": signature,
         }),
       );

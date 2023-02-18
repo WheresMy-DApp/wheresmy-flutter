@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wheresmy/providers/auth_provider.dart';
+import 'package:wheresmy/providers/web3_provider.dart';
 import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
 import 'package:wheresmy/widgets/snackbar.dart';
@@ -23,6 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String? message;
 
   late AuthProvider _authProvider;
+  late Web3Provider _web3Provider;
 
   @override
   void initState() {
@@ -48,6 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: MultiProvider(
         providers: [
           ChangeNotifierProvider.value(value: AuthProvider.instance),
+          ChangeNotifierProvider.value(value: Web3Provider.instance)
         ],
         child: _mainUI(),
       ),
@@ -201,9 +204,9 @@ class _RegisterPageState extends State<RegisterPage> {
               ? customButton(
                   "Connect To Metamask",
                   onTap: () async {
-                    await AuthProvider.instance.createWalletSession();
+                    await Web3Provider.instance.createWalletSession();
                     message = await AuthProvider.instance
-                        .register(AuthProvider.instance.walletId!);
+                        .register(Web3Provider.instance.walletId!);
                     if (message != null) {
                       var signature =
                           await AuthProvider.instance.signMessage(message!);

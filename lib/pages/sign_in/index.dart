@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wheresmy/providers/auth_provider.dart';
+import 'package:wheresmy/providers/web3_provider.dart';
 import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
 import 'package:wheresmy/widgets/snackbar.dart';
@@ -102,7 +103,7 @@ class _SignInPageState extends State<SignInPage> {
               child: customButton(
                 "Sign in with Metamask",
                 onTap: () async {
-                  await AuthProvider.instance.createWalletSession();
+                  await Web3Provider.instance.createWalletSession();
                   var message = await AuthProvider.instance.initLogin();
                   if (message != null) {
                     var signature =
