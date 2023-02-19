@@ -8,4 +8,8 @@ class AppConstants {
   static const String networkName = "Matic Testnet Mumbai";
   static const String contractAddress =
       "0x3807CFb9A2D1dB4Ec2a29e51FC126570e0e2625c";
+  static const String testContractAddress =
+      "0x10d6cA628dC02e710146d79D5E62b4d390A73F84";
 }
+
+// 0x10d6cA628dC02e710146d79D5E62b4d390A73F84

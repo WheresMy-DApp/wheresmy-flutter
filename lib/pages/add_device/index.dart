@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wheresmy/widgets/custom.dart';
+import 'package:mac_address/mac_address.dart';
 
 class AddDevice extends StatefulWidget {
   const AddDevice({super.key});
@@ -18,6 +19,16 @@ class _AddDeviceState extends State<AddDevice> {
     isLoading = true;
     deviceNicknameTextController = TextEditingController();
     super.initState();
+    regDevice();
+  }
+
+  void regDevice() async {
+    try {
+      String macAddress = await GetMac.macAddress;
+      print(macAddress);
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

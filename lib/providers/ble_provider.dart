@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:bluetooth_enable_fork/bluetooth_enable_fork.dart';
 
 enum ScanStatus {
   scanning,
@@ -50,6 +51,13 @@ class BLEProvider extends ChangeNotifier {
   BLEProvider();
 
   Future<void> requestPermissions() async {
+    await FlutterBlue.instance.isOn.then((value) {
+      if (!value) {
+        BluetoothEnable.enableBluetooth.then((value) {
+          print(value);
+        });
+      }
+    });
     List<Permission> permissions = [
       Permission.bluetoothScan,
       Permission.bluetoothConnect,

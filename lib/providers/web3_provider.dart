@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:wheresmy/utils/ethereum_credentials.dart';
 
 class Web3Provider extends ChangeNotifier {
   String? walletId;
   EthereumWalletConnectProvider? provider;
+  WalletConnectEthereumCredentials? credentials;
   WalletConnect connector = WalletConnect(
     bridge: "https://bridge.walletconnect.org",
     clientMeta: const PeerMeta(
@@ -19,6 +21,10 @@ class Web3Provider extends ChangeNotifier {
   static Web3Provider instance = Web3Provider();
   Web3Provider();
 
+  Future<void> clearAllSessions() async {
+    connector.killSession();
+  }
+
   Future<void> createWalletSession() async {
     if (!connector.connected) {
       sessionStatus = await connector.createSession(
@@ -31,6 +37,7 @@ class Web3Provider extends ChangeNotifier {
         },
       );
       provider = EthereumWalletConnectProvider(connector);
+      credentials = WalletConnectEthereumCredentials(provider: provider!);
       walletId = sessionStatus!.accounts[0];
       notifyListeners();
     }

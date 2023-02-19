@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:wheresmy/models/user.dart';
+import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/utils/constants.dart';
 import 'package:wheresmy/utils/logger.dart';
 import 'package:wheresmy/widgets/snackbar.dart';
@@ -112,12 +113,29 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> checkAuth() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString("token");
+    if (token != null) {
+      // if (Web3Provider.instance.connector.bridgeConnected) {
+      authStatus = AuthStatus.authenticated;
+      NavigationService.instance.navigateToReplacement("home");
+      // }
+    } else {
+      authStatus = AuthStatus.unauthenticated;
+      // Web3Provider.instance.connector.killSession();
+      NavigationService.instance.navigateToReplacement("landing");
+    }
+    return;
+  }
+
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("token");
     token = null;
     currentUser = null;
     authStatus = AuthStatus.unauthenticated;
+    Web3Provider.instance.connector.killSession();
     notifyListeners();
   }
 }

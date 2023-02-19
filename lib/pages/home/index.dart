@@ -79,25 +79,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ],
         child: _mainUI(),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.transparent,
-      //   child: Container(
-      //     height: 60,
-      //     width: 60,
-      //     decoration: const BoxDecoration(
-      //         shape: BoxShape.rectangle,
-      //         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-      //         gradient: LinearGradient(
-      //             colors: [Color(0xFF9C77F5), Color(0xFF7751F1)])),
-      //     child: const Icon(
-      //       Icons.add,
-      //       color: Color(0xFFFFFFFF),
-      //     ),
-      //   ),
-      //   onPressed: () {
-      //     NavigationService.instance.navigateTo("add_device");
-      //   },
-      // ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          height: 60,
+          width: 60,
+          decoration: const BoxDecoration(
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              gradient: LinearGradient(
+                  colors: [Color(0xFF9C77F5), Color(0xFF7751F1)])),
+          child: const Icon(
+            Icons.add,
+            color: Color(0xFFFFFFFF),
+          ),
+        ),
+        onPressed: () {
+          NavigationService.instance.navigateTo("add_device");
+        },
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: bottomNavIndex,
         type: BottomNavigationBarType.fixed,

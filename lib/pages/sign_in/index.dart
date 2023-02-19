@@ -105,6 +105,7 @@ class _SignInPageState extends State<SignInPage> {
                   child: customButton(
                     "Sign in with Metamask",
                     onTap: () async {
+                      await Web3Provider.instance.clearAllSessions();
                       await Web3Provider.instance.createWalletSession();
                       var message = await AuthProvider.instance.initLogin();
                       if (message != null) {

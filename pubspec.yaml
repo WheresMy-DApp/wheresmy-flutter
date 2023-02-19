@@ -49,6 +49,8 @@ dependencies:
   web3dart: ^2.6.1
   google_maps_flutter: ^2.2.3
   geolocator: ^9.0.2
+  bluetooth_enable_fork: ^0.1.6
+  mac_address: ^1.0.0
 
 dev_dependencies:
   flutter_test:
