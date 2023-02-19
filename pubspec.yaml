@@ -47,6 +47,7 @@ dependencies:
   shared_preferences: ^2.0.17
   workmanager: ^0.5.1
   web3dart: ^2.6.1
+  google_maps_flutter: ^2.2.3
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,7 @@ flutter:
     - assets/logos/placesFilled.svg
     - assets/logos/settings.svg
     - assets/logos/settingsFilled.svg
+    - assets/logos/Logoutlogout.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

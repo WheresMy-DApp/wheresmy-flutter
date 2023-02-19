@@ -111,4 +111,13 @@ class AuthProvider extends ChangeNotifier {
       log.severe(e);
     }
   }
+
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("token");
+    token = null;
+    currentUser = null;
+    authStatus = AuthStatus.unauthenticated;
+    notifyListeners();
+  }
 }
