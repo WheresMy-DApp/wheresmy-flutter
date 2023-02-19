@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:wheresmy/pages/home/maps.dart';
 import 'package:wheresmy/providers/auth_provider.dart';
 import 'package:wheresmy/providers/ble_provider.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wheresmy/providers/maps_provider.dart';
 import 'package:wheresmy/services/navigation_service.dart';
 import 'package:wheresmy/widgets/custom.dart';
 import 'package:wheresmy/widgets/device_tile.dart';
@@ -21,6 +23,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late BLEProvider _bleProvider;
   late TabController _tabController;
   late int bottomNavIndex;
+  bool isLocationFetched = false;
+
   @override
   void initState() {
     BLEProvider.instance.requestPermissions().then((value) {
@@ -32,6 +36,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
     bottomNavIndex = 0;
     super.initState();
+    MapsProvider.instance.getCurrentPosition();
   }
 
   @override
