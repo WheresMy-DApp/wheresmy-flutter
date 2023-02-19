@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
-import 'package:provider/provider.dart';
 import 'package:wheresmy/providers/auth_provider.dart';
 import 'package:wheresmy/providers/ble_provider.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,6 +18,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late BuildContext mainContext;
   late BLEProvider _bleProvider;
   late TabController _tabController;
+  late int bottomNavIndex;
   @override
   void initState() {
     BLEProvider.instance.requestPermissions().then((value) {
@@ -29,6 +28,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       length: 3,
       vsync: this,
     );
+    bottomNavIndex = 0;
     super.initState();
   }
 
@@ -115,6 +115,73 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         onPressed: () {
           NavigationService.instance.navigateTo("add_device");
         },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: bottomNavIndex,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Theme.of(context).backgroundColor,
+        onTap: (int tappedIndex) {
+          setState(() {
+            bottomNavIndex = tappedIndex;
+          });
+        },
+        showUnselectedLabels: true,
+        selectedLabelStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          color: Color(0xFFFFFFFF),
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          color: Color(0xFF6B6B6B),
+        ),
+        items: [
+          BottomNavigationBarItem(
+            activeIcon: SvgPicture.asset(
+              "assets/logos/SubtractHome.svg",
+              color: const Color(0xFF9C77F5),
+            ),
+            icon: SvgPicture.asset(
+              "assets/logos/White.svg",
+              color: const Color(0xFF6B6B6B),
+            ),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            activeIcon: SvgPicture.asset(
+              "assets/logos/SubtractMapFilled.svg",
+              color: const Color(0xFF9C77F5),
+            ),
+            icon: SvgPicture.asset(
+              "assets/logos/Map.svg",
+              color: const Color(0xFF6B6B6B),
+            ),
+            label: "Notifications",
+          ),
+          BottomNavigationBarItem(
+            activeIcon: SvgPicture.asset(
+              "assets/logos/placesFilled.svg",
+              color: const Color(0xFF9C77F5),
+            ),
+            icon: SvgPicture.asset(
+              "assets/logos/places.svg",
+              color: const Color(0xFF6B6B6B),
+            ),
+            label: "Profile",
+          ),
+          BottomNavigationBarItem(
+            activeIcon: SvgPicture.asset(
+              "assets/logos/settingsFilled.svg",
+              color: const Color(0xFF9C77F5),
+            ),
+            icon: SvgPicture.asset(
+              "assets/logos/settings.svg",
+              color: const Color(0xFF6B6B6B),
+            ),
+            label: "Profile",
+          ),
+        ],
       ),
     );
   }

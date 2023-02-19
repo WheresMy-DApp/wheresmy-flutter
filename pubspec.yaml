@@ -83,6 +83,14 @@ flutter:
     - assets/logos/mobile.svg
     - assets/logos/pc.svg
     - lib/contracts/abis/WheresMyNFT.json
+    - assets/logos/SubtractHome.svg
+    - assets/logos/White.svg
+    - assets/logos/Map.svg
+    - assets/logos/SubtractMapFilled.svg
+    - assets/logos/places.svg
+    - assets/logos/placesFilled.svg
+    - assets/logos/settings.svg
+    - assets/logos/settingsFilled.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
